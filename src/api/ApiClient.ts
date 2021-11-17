@@ -1,21 +1,6 @@
-import { PostModel } from "./features/posts/Post";
-
-interface PostJSON {
-    id: string;
-    created_time: string;
-    from_id: string;
-    from_name: string;
-    message: string;
-    type: string;
-}
-
-interface PostsJSON {
-    data: {
-        page: number;
-        posts: PostJSON[];
-    },
-    errors?: Array<{message: string}>;
-}
+import { PostModel } from "../features/posts/Post";
+import { PostsResponse, RawPost } from "./PostsResponse";
+import { RegisterResponse } from "./RegisterResponse";
 
 export namespace ApiClient {
     const API_URL: string = "https://api.supermetrics.com/assignment";
@@ -23,13 +8,14 @@ export namespace ApiClient {
 
     export async function getPosts(page: number, token: string): Promise<PostModel[]> {
         const response = await fetch(`${API_URL}/posts?page=${page}&sl_token=${token}`);
-        const { data, errors }: PostsJSON = await response.json();
+        const { data, error }: PostsResponse = await response.json();
 
-        if (errors) {
-            console.log(errors);
+        if (error) {
+            console.log(error);
+            return [];
         }
 
-        return data.posts.map((rawPost: PostJSON): PostModel => {
+        return data.posts.map((rawPost: RawPost): PostModel => {
             return {
                 createdTime: new Date(rawPost.created_time).getTime(),
                 message: rawPost.message,
@@ -49,10 +35,11 @@ export namespace ApiClient {
             },
             body: JSON.stringify({email, name, client_id: CLIENT_ID})
         });
-        const { data, errors }: PostsJSON = await response.json();
+        
+        const { data, error }: RegisterResponse = await response.json();
 
-        if (errors) {
-            console.log(errors);
+        if (error) {
+            console.log(error);
         }
 
         return data;

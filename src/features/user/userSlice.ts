@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ApiClient } from "../../ApiClient";
+import { ApiClient } from "../../api/ApiClient";
 
 export const register = createAsyncThunk("user/register", async ({email, name}: {email: string, name: string}) => {
   const userData = await ApiClient.register(email, name);
@@ -16,9 +16,6 @@ export const userSlice = createSlice({
     isAuthenticated: false
   },
   reducers: {
-    get: (state, postId) => {
-      return state;
-    },
   },
   extraReducers(builder) {
     builder
@@ -37,7 +34,5 @@ export const userSlice = createSlice({
       })
   }
 });
-
-export const { get } = userSlice.actions;
 
 export default userSlice.reducer;

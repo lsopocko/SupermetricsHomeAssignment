@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ApiClient } from "../../ApiClient";
+import { ApiClient } from "../../api/ApiClient";
 import { PostModel } from "./Post";
 import { PostAuthorModel } from "./PostAuthor";
 
@@ -42,8 +42,7 @@ function extractAuthors(posts: PostModel[]): PostAuthorModel[] {
 export const postsSlice = createSlice({
   name: "posts",
   initialState: initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state, action) => {
