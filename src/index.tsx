@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import "normalize.css";
@@ -19,6 +19,7 @@ ReactDOM.render(
         <Routes>
           <Route path="login" element={<Login />} />
           <Route path="/" element={<App />}>
+            <Route path="" element={<Navigate to="posts"/>} />
             <Route path="posts" element={
               <AuthRoute>
                 <Posts />
