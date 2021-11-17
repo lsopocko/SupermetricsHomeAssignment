@@ -6,7 +6,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * lack of pagination,
 * no api error handling,
-* no token refreshing, should be done when request to `/posts` fails with `Invalid SL Token` error
+* no token refreshing, should be done when request to `/posts` fails with `Invalid SL Token` error,
+* token is not held in session/local storage so you have to relogin after page refresh
 
 ## Available Scripts
 
