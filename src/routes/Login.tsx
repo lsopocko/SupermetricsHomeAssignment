@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { register } from "../features/user/userSlice";
 import { RootState } from "../store";
 import { Popup, Button, Input } from "../ui";
+import validateEmail from "../validators/emailValidator";
 
 interface LoginProps {
     className?: string;
@@ -14,6 +15,7 @@ function Login({className}: LoginProps) {
     const { isAuthenticated } = useSelector((state: RootState) => state.user);
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
+    const [isFormInvalid, setIsFormInvalid] = useState(false);
     const location = useLocation();
     let { from } = location.state || { from: { pathname: "/posts" } };
 
@@ -21,7 +23,12 @@ function Login({className}: LoginProps) {
 
     const handleSubmit = useCallback((event: MouseEvent) => {
         event.preventDefault();
-        dispatch(register({email, name}));
+
+        if (email && name && validateEmail(email)) {
+            dispatch(register({email, name}));
+        } else {
+            setIsFormInvalid(true);
+        }
     }, [dispatch, email, name])
 
     const handleNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -38,12 +45,13 @@ function Login({className}: LoginProps) {
         <Popup className={className}>
             <>
                 <h1>Login</h1>
+                { isFormInvalid && <p className="error">Enter valid e-mail and name</p> }
                 <form>
                     <fieldset>
-                        <Input value={name} placeholder="Name" type="text" onChange={handleNameChange} />
+                        <Input value={name} placeholder="Name" type="text" onChange={handleNameChange} required/>
                     </fieldset>
                     <fieldset>
-                        <Input value={email} placeholder="E-mail" type="text" onChange={handleEmailChange}/>
+                        <Input value={email} placeholder="E-mail" type="email" onChange={handleEmailChange} required/>
                     </fieldset>
                     <Button role="submitButton" onClick={handleSubmit}>Go</Button>
                 </form>
@@ -70,6 +78,11 @@ const styledLogin = styled(Login)`
         border: none;
         margin: 0;
         margin-bottom: 10px;
+    }
+
+    .error {
+        font-size: 12px;
+        color: rgba(223,78,69,1.0);
     }
 
     ${Input} {

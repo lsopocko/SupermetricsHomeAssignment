@@ -2,6 +2,7 @@ import styled from "styled-components";
 import PostAuthor, { PostAuthorModel } from "./PostAuthor";
 import { Input } from "../../ui";
 import { NavLink } from "react-router-dom";
+import { ChangeEvent, useCallback, useState } from "react";
 
 interface PostsAuthorsListProps {
     className?: string;
@@ -19,14 +20,28 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function PostsAuthorsList({className, authors}: PostsAuthorsListProps) {
+    const [query, setQuery] = useState("");
+
+    const handleQueryChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        setQuery(event.target.value);
+    }, []);
+
+    let displayedAuthors = [...authors];
+
+    if (query) {
+        displayedAuthors = displayedAuthors.filter((author) => {
+            return author.name.indexOf(query) !== -1;
+        });
+    }
+
     return (
         <div className={className}>
             <form action="">
-                <Input type="text" placeholder="Search" />
+                <Input type="text" value={query} placeholder="Search" onChange={handleQueryChange}/>
             </form>
             <div className="authors-list">
                 {
-                    authors.map((author) => 
+                    displayedAuthors.map((author) => 
                         <StyledNavLink key={author.id} to={`/posts/${author.id}`}>
                             <PostAuthor author={author}></PostAuthor>
                         </StyledNavLink>
