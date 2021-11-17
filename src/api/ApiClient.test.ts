@@ -38,7 +38,8 @@ describe("ApiClient", () => {
         expect(user).toEqual({
             client_id: "fakeClientId",
             email: "test@gmail.com",
-            sl_token: "fakeToken"
+            sl_token: "fakeToken",
+            name: "testname",
         });
     });
 })
