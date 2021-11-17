@@ -39,6 +39,10 @@ function extractAuthors(posts: PostModel[]): PostAuthorModel[] {
   return uniqueAuthors;
 }
 
+function sortByAuthorName(authorA: PostAuthorModel, authorB: PostAuthorModel) {
+  return authorA.name.localeCompare(authorB.name);
+}
+
 export const postsSlice = createSlice({
   name: "posts",
   initialState: initialState,
@@ -52,7 +56,7 @@ export const postsSlice = createSlice({
         state.status = "succeeded";
         state.items = state.items.concat(action.payload);
 
-        state.authors = extractAuthors(action.payload);
+        state.authors = extractAuthors(action.payload).sort(sortByAuthorName);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
