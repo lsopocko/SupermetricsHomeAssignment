@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Supermetrics home assignment
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Known issues
+
+* lack of pagination,
+* no api error handling,
+* no token refreshing, should be done when request to `/posts` fails with `Invalid SL Token` error
 
 ## Available Scripts
 
