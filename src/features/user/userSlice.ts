@@ -25,7 +25,6 @@ export const userSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.email = action.payload.email;
-        state.name = action.payload.name;
         state.slToken = action.payload.sl_token;
         state.isAuthenticated = true;
       })

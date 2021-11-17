@@ -26,7 +26,7 @@ export namespace ApiClient {
         });
     }
 
-    export async function register(email: string, name: string): Promise<any> {
+    export async function register(email: string, name: string): Promise<{client_id: string, name: string, sl_token: string, email: string}> {
         const response = await fetch(`${API_URL}/register`, {
             method: "POST",
             headers: {
@@ -42,6 +42,6 @@ export namespace ApiClient {
             console.log(error);
         }
 
-        return data;
+        return { ...data, name};
     }
 }

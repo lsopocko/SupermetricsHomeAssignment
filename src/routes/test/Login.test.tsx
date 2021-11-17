@@ -4,11 +4,14 @@ import { Provider } from "react-redux";
 import store from "../../store";
 import Login from "../Login";
 import AuthRoute from "../../auth/AuthRoute";
+import { RegisterResponse } from "../../api/RegisterResponse";
 
-const fakeUserJson: any = {
-    client_id: "ju16a6m81mhid5ue1z3v2g0uh",
-    email: "test@gmail.com",
-    sl_token: "smslt_da85516750eb3_e54c5732d278c3"
+const fakeRegisterResponse: RegisterResponse = {
+    data: {
+        client_id: "ju16a6m81mhid5ue1z3v2g0uh",
+        email: "test@gmail.com",
+        sl_token: "smslt_da85516750eb3_e54c5732d278c3"
+    }
 }
 
 function FakeGuardedRoute() {
@@ -20,7 +23,7 @@ function FakeGuardedRoute() {
 describe("Login route", () => {
     beforeEach(() => {
         fetchMock.resetMocks();
-        fetchMock.mockResponse(JSON.stringify({ data: fakeUserJson }));
+        fetchMock.mockResponse(JSON.stringify(fakeRegisterResponse));
     })
 
     test("renders login form", async () => {
